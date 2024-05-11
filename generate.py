@@ -2,7 +2,7 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import os
 import json
 import torch
-import args
+import argparse
 import tqdm
 import argparse
 
@@ -49,9 +49,11 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	tokenizer = AutoTokenizer.from_pretrained(args.model_path)
-	model = AutoModelForSeq2SeqLM.from_pretrained(args.model_path, device_map="auto")
+	model = AutoModelForSeq2SeqLM.from_pretrained(args.model_path).cuda()
 
-	for file in tqdm(os.listdir(f"{args.data_path}/test")):
+	files = os.listdir(os.listdir(f"{args.data_path}/test"))
+
+	for file in tqdm(files):
 		prob_path = "f{args.data_path}/test/" + file
 		problem_id = int(file)
 
