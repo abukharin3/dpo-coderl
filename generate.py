@@ -3,7 +3,7 @@ import os
 import json
 import torch
 import argparse
-import tqdm
+from tqdm import tqdm
 import argparse
 
 
@@ -51,10 +51,10 @@ if __name__ == "__main__":
 	tokenizer = AutoTokenizer.from_pretrained(args.model_path)
 	model = AutoModelForSeq2SeqLM.from_pretrained(args.model_path).cuda()
 
-	files = os.listdir(os.listdir(f"{args.data_path}/test"))
+	files = os.listdir(f"{args.data_path}/test")
 
 	for file in tqdm(files):
-		prob_path = "f{args.data_path}/test/" + file
+		prob_path = f"{args.data_path}/test/" + file
 		problem_id = int(file)
 
 		test_case_path = os.path.join(prob_path, "input_output.json")
@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
 
 		output_dict = model.generate(
-			                    input_ids,
+			                    input_ids.cuda(),
 			                    do_sample=True,
 			                    temperature=0.6,
 			                    max_length=512,
