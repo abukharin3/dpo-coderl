@@ -52,6 +52,7 @@ if __name__ == "__main__":
 	model = AutoModelForSeq2SeqLM.from_pretrained(args.model_path).cuda()
 
 	files = os.listdir(f"{args.data_path}/test")
+	print(len(files))
 
 	for file in tqdm(files):
 		prob_path = f"{args.data_path}/test/" + file
@@ -91,7 +92,7 @@ if __name__ == "__main__":
 		saved_codes = {}
 		saved_codes[problem_id] = {'code': output_programs, 'prompt': input_text}
 
-		codes_loc = os.path.join(arg.save_path, f"{problem_id}.json")
+		codes_loc = os.path.join(args.save_path, f"{problem_id}.json")
 		with open(codes_loc, "w") as f:
 		    json.dump(saved_codes, f)
 

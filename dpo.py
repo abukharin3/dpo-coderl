@@ -182,9 +182,8 @@ if __name__ == "__main__":
     
 
     # 1. load a pretrained model
-    model_name = "SFT"
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(script_args.model_name_or_path)
+    model = AutoModelForSeq2SeqLM.from_pretrained(script_args.model_name_or_path, device_map="auto")
 
     if script_args.ignore_bias_buffers:
         # torch distributed hack
@@ -206,7 +205,7 @@ if __name__ == "__main__":
     # quantiles = np.percentile(lengths_label, [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
     # print(f"Percentile Label: {quantiles}")
     # 2. Load the dataset
-    train_dataset = load_json("dummy.json")
+    train_dataset = load_json("coderl_dpo.json")
     eval_dataset = load_json("dummy.json")
     # 3. Load evaluation dataset
     # eval_dataset = get_summarize("validation", sanity_check=script_args.sanity_check)
